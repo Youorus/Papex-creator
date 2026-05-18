@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Fond très clair et texte sombre pour une lisibilité parfaite (Light Mode) */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    /* Cartes légèrement détachées du fond si nécessaire, mais souvent blanches en SaaS */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Couleur Primaire: Un Indigo/Violet vibrant très "SaaS Moderne" (ex: Stripe, Linear) */
+    --primary: 243 75% 59%; 
+    --primary-foreground: 210 40% 98%;
+
+    /* Couleurs secondaires douces */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    /* Couleurs neutres pour les textes secondaires et les bordures */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    /* Destructive (Rouge moderne) */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Bordures subtiles pour séparer les éléments sans surcharger */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 243 75% 59%;
+
+    --radius: 0.75rem; /* Coins un peu plus arrondis pour un côté plus friendly */
+  }
+
+  .dark {
+    /* Fond très sombre, "Midnight" ou "Zinc" profond pour le Dark Mode */
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+
+    /* Cartes très légèrement plus claires pour donner de la profondeur */
+    --card: 224 71% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 224 71% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primaire ajustée pour être lisible sur fond noir (un peu plus lumineuse) */
+    --primary: 243 100% 69%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 243 100% 69%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* antialiased donne un rendu de police plus fin et premium sur macOS/iOS */
+  }
+}
