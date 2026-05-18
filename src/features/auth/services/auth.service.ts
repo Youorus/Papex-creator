@@ -1,16 +1,10 @@
 import apiClient from "@/shared/services/api-client";
+import { ensureCsrfCookie } from "@/shared/services/csrf";
 import { LoginValues } from "../schemas/auth.schema";
 
 export const authService = {
-  ensureCsrf: async () => {
-    try {
-      await apiClient.get("/auth/csrf/");
-    } catch (error) {
-      console.error("Failed to fetch CSRF token", error);
-    }
-  },
   login: async (values: LoginValues) => {
-    await authService.ensureCsrf();
+    await ensureCsrfCookie();
     const response = await apiClient.post("/auth/login/", values);
     return response.data;
   },

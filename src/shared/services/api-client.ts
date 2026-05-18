@@ -14,7 +14,19 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const csrfToken = getCsrfToken();
-    if (csrfToken && config.headers) {
+    const methods = ["post", "put", "patch", "delete"];
+    
+    if (process.env.NODE_ENV === "development") {
+      const isCorrectDomain = config.baseURL === "https://api.papiers-express.fr/api";
+      if (!isCorrectDomain) {
+         console.warn("[API Debug] Request is going to an unexpected domain:", config.baseURL);
+      }
+      if (methods.includes(config.method?.toLowerCase() || "") && !csrfToken) {
+         console.warn("[API Debug] CSRF token is missing before a POST/PUT/PATCH/DELETE request!");
+      }
+    }
+
+    if (csrfToken && config.headers && config.method && methods.includes(config.method.toLowerCase())) {
       config.headers["X-CSRFToken"] = csrfToken;
     }
     return config;
@@ -38,7 +50,7 @@ apiClient.interceptors.response.use(
     }
 
     if (error.response?.status === 403) {
-      toast.error("Accès refusé. Votre session ne dispose pas des droits nécessaires.");
+      toast.error("Accès refusé. Vérifiez que votre session administrateur est bien active.");
     }
 
     return Promise.reject(error);

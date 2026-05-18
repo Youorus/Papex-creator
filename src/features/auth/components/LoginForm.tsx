@@ -12,6 +12,7 @@ import { authService } from "../services/auth.service";
 import { useAuth } from "@/providers/auth-provider";
 import { showApiErrorToast } from "@/shared/errors/api-error";
 import { Loader2, Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +32,12 @@ export function LoginForm() {
     try {
       await authService.login(values);
       await updateAuthContext();
-    } catch (error) {
-      showApiErrorToast(error);
+    } catch (error: any) {
+      if (process.env.NODE_ENV === "development") {
+        console.error("[Login Debug] Error:", error);
+      }
+      const backendMsg = error.response?.data?.detail || error.response?.data?.message || "Erreur de connexion";
+      toast.error(backendMsg);
     } finally {
       setIsLoading(false);
     }

@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await authService.me();
       
       if (process.env.NODE_ENV === "development") {
+        console.log("[Auth Debug] NEXT_PUBLIC_API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
         console.log("[Auth Debug] /auth/me/ response:", data);
       }
 
