@@ -5,15 +5,15 @@ import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { CreatorTable } from "@/features/creators/components/CreatorTable";
 import { CreatorStatsCards } from "@/features/creators/components/CreatorStatsCards";
-import { CreatorFiltersComponent } from "@/features/creators/components/CreatorFilters";
+import { CreatorFilters } from "@/features/creators/components/CreatorFilters";
 import { CreatorDeleteDialog } from "@/features/creators/components/CreatorDeleteDialog";
 import { useCreators, useCreatorStats, useDeleteCreator } from "@/features/creators/hooks/use-creators";
-import { CreatorFilters } from "@/features/creators/types";
+import { CreatorFilters as CreatorFiltersType } from "@/features/creators/types";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function CreatorsPage() {
-  const [filters, setFilters] = useState<CreatorFilters>({
+  const [filters, setFilters] = useState<CreatorFiltersType>({
     page: 1,
     page_size: 10,
   });
@@ -24,7 +24,7 @@ export default function CreatorsPage() {
   const { data: statsData, isLoading: isLoadingStats } = useCreatorStats(filters);
   const { mutate: deleteCreator, isPending: isDeleting } = useDeleteCreator();
 
-  const handleFiltersChange = (newFilters: CreatorFilters) => {
+  const handleFiltersChange = (newFilters: CreatorFiltersType) => {
     setFilters(newFilters);
   };
 
@@ -66,7 +66,7 @@ export default function CreatorsPage() {
             <h2 className="text-xl font-bold">Liste des créateurs</h2>
           </div>
           
-          <CreatorFiltersComponent 
+          <CreatorFilters 
             filters={filters} 
             onFiltersChange={handleFiltersChange} 
           />

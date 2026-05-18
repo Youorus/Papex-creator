@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { SocialLeadTable } from "@/features/social-leads/components/SocialLeadTable";
 import { SocialLeadStatsCards } from "@/features/social-leads/components/SocialLeadStatsCards";
-import { SocialLeadFiltersComponent } from "@/features/social-leads/components/SocialLeadFilters";
+import { SocialLeadFilters } from "@/features/social-leads/components/SocialLeadFilters";
 import { SocialLeadDeleteDialog } from "@/features/social-leads/components/SocialLeadDeleteDialog";
 import { LinkCreatorDialog } from "@/features/social-leads/components/LinkCreatorDialog";
 import { 
@@ -18,12 +18,12 @@ import {
   useMarkLeadNotRelevant,
   useLinkLeadCreator
 } from "@/features/social-leads/hooks/use-social-leads";
-import { SocialLeadFilters } from "@/features/social-leads/types";
+import { SocialLeadFilters as SocialLeadFiltersType } from "@/features/social-leads/types";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function SocialLeadsPage() {
-  const [filters, setFilters] = useState<SocialLeadFilters>({
+  const [filters, setFilters] = useState<SocialLeadFiltersType>({
     page: 1,
     page_size: 10,
   });
@@ -41,7 +41,7 @@ export default function SocialLeadsPage() {
   const { mutate: markNotRelevant } = useMarkLeadNotRelevant();
   const { mutate: linkCreator, isPending: isLinking } = useLinkLeadCreator();
 
-  const handleFiltersChange = (newFilters: SocialLeadFilters) => {
+  const handleFiltersChange = (newFilters: SocialLeadFiltersType) => {
     setFilters(newFilters);
   };
 
@@ -98,7 +98,7 @@ export default function SocialLeadsPage() {
             <h2 className="text-xl font-bold">Prospects identifiés</h2>
           </div>
           
-          <SocialLeadFiltersComponent 
+          <SocialLeadFilters 
             filters={filters} 
             onFiltersChange={handleFiltersChange} 
           />
