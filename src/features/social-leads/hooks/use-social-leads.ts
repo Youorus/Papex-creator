@@ -57,8 +57,7 @@ export const useUpdateSocialLead = () => {
     mutationFn: ({ id, payload }: { id: string; payload: SocialLeadUpdatePayload }) => 
       socialLeadsService.updateSocialLead(id, payload),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: SOCIAL_LEAD_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: SOCIAL_LEAD_KEYS.detail(data.id) });
+      queryClient.invalidateQueries({ queryKey: SOCIAL_LEAD_KEYS.all });
       toast.success("Lead social mis à jour avec succès");
     },
     onError: (error) => {
