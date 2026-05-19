@@ -15,9 +15,9 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Couleur Primaire: Un Indigo/Violet vibrant très "SaaS Moderne" (ex: Stripe, Linear) */
-    --primary: 243 75% 59%; 
-    --primary-foreground: 210 40% 98%;
+    /* Couleur Primaire: Le bleu de la marque Papiers Express (#173083) */
+    --primary: 226 70% 30%; 
+    --primary-foreground: 0 0% 100%; /* Blanc pur pour un contraste parfait */
 
     /* Couleurs secondaires douces */
     --secondary: 210 40% 96.1%;
@@ -32,12 +32,12 @@
 
     /* Destructive (Rouge moderne) */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     /* Bordures subtiles pour séparer les éléments sans surcharger */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 243 75% 59%;
+    --ring: 226 70% 30%;
 
     --radius: 0.75rem; /* Coins un peu plus arrondis pour un côté plus friendly */
   }
@@ -54,9 +54,9 @@
     --popover: 224 71% 8%;
     --popover-foreground: 210 40% 98%;
 
-    /* Primaire ajustée pour être lisible sur fond noir (un peu plus lumineuse) */
-    --primary: 243 100% 69%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primaire ajustée pour être lisible sur fond noir mais toujours bleue */
+    --primary: 226 80% 60%;
+    --primary-foreground: 0 0% 100%; /* Blanc pur pour garantir la lisibilité */
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -68,11 +68,11 @@
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 243 100% 69%;
+    --ring: 226 80% 60%;
   }
 }
 

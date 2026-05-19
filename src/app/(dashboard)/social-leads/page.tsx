@@ -84,7 +84,7 @@ export default function SocialLeadsPage() {
           </p>
         </div>
         <Link href="/social-leads/create">
-          <Button className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+          <Button className="shadow-lg shadow-primary/20 transition-all hover:scale-105">
             <Plus className="mr-2 h-4 w-4" /> Ajouter un compte
           </Button>
         </Link>
