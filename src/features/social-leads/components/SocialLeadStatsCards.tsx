@@ -1,9 +1,9 @@
 import { MetricCard } from "@/shared/components/cards/MetricCard";
-import { 
-  Users, 
-  CheckCircle2, 
-  MessageSquare, 
-  UserPlus, 
+import {
+  Users,
+  CheckCircle2,
+  MessageSquare,
+  UserPlus,
   TrendingUp,
   XCircle
 } from "lucide-react";
@@ -42,12 +42,12 @@ export function SocialLeadStatsCards({ stats, isLoading }: SocialLeadStatsCardsP
         icon={CheckCircle2}
         colorPreset="emerald"
       />
-      <MetricCard
-        title="À contacter"
-        value={stats.to_contact}
-        icon={MessageSquare}
-        colorPreset="amber"
-      />
+        <MetricCard
+            title="Contactés"
+            value={stats.contacted}
+            icon={MessageSquare}
+            colorPreset="amber"
+        />
       <MetricCard
         title="Positifs"
         value={stats.positive}
