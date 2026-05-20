@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isLoading) {
       const isAuthPage = pathname.startsWith("/login");
-      const hasAccess = user && (user.role === "ADMIN" || user.is_superuser);
+      const hasAccess = user && (user.role === "ADMIN" || user.role === "ACCUEIL" ||  user.is_superuser);
 
       if (!user && !isAuthPage) {
         router.push("/login");
