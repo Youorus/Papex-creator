@@ -21,7 +21,7 @@ export default function DashboardLayout({
     );
   }
 
-  const hasAccess = user && (user.role === "ADMIN" || user.is_superuser);
+  const hasAccess = user && (user.role === "ADMIN" || user.role === "ACCUEIL" || user.is_superuser);
 
   if (!user || !hasAccess) {
     return (
