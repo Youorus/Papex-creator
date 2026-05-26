@@ -5,6 +5,7 @@ import { AppTopbar } from "@/shared/components/layout/AppTopbar";
 import { useAuth } from "@/providers/auth-provider";
 import { Loader2, AlertTriangle, RefreshCcw } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
+import { usePathname } from "next/navigation";
 
 export default function DashboardLayout({
   children,
@@ -12,6 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { user, isLoading, checkAuth } = useAuth();
+  const pathname = usePathname();
 
   if (isLoading) {
     return (
@@ -19,6 +21,13 @@ export default function DashboardLayout({
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
+  }
+
+  // Si c'est un créateur accédant à son espace, on laisse passer sans le layout admin
+  // car l'espace créateur a son propre layout (CreatorSidebar)
+  const isCreatorSpace = pathname?.startsWith("/my-space");
+  if (user?.role === "CREATOR" && isCreatorSpace) {
+    return <>{children}</>;
   }
 
   const hasAccess = user && (user.role === "ADMIN" || user.role === "ACCUEIL" || user.is_superuser);
