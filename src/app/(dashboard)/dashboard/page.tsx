@@ -41,13 +41,18 @@ export default function DashboardPage() {
 
   return (
       <div className="space-y-8 p-4 md:p-8 pt-6">
+        {/* En-tête avec le titre de performance et les boutons alignés */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-4xl font-black tracking-tight">Tableau de bord</h1>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-6 w-6 text-primary" />
+              <h1 className="text-3xl font-black tracking-tight">Performance des Créateurs</h1>
+            </div>
             <p className="text-muted-foreground">
-              Aperçu global de votre programme d&apos;acquisition créateurs.
+              Analyse des conversions et revenus générés par les codes promo.
             </p>
           </div>
+
           <div className="flex items-center gap-2">
             <Link href="/creators/create">
               <Button size="sm" className="shadow-sm bg-primary text-primary-foreground hover:bg-primary/90">
@@ -62,14 +67,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="space-y-4 pt-8 border-t">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-6 w-6 text-primary" />
-            <h2 className="text-3xl font-black tracking-tight">Performance des Créateurs</h2>
-          </div>
-          <p className="text-muted-foreground">
-            Analyse des conversions et revenus générés par les codes promo.
-          </p>
+        {/* Contenu principal */}
+        <div className="space-y-4">
           <AggregateKPIView />
         </div>
       </div>
