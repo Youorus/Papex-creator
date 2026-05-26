@@ -167,17 +167,16 @@ export function SocialLeadMobileCard({
 
       <div className="flex items-center justify-between pt-3 border-t border-border/50">
         <div className="flex flex-col space-y-1">
-          <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Créateur</span>
+          <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Créateur lié</span>
           {lead.creator ? (
             <div className="flex items-center gap-1.5">
               <AppAvatar 
-                name={lead.creator.full_name || lead.creator.email}
-                email={lead.creator.email}
+                name={lead.creator.full_name} 
                 className="h-5 w-5 border-none"
                 fallbackClassName="text-[8px]"
               />
-              <span className="text-xs font-medium truncate max-w-[100px]">
-                {lead.creator.full_name || lead.creator.email}
+              <span className="text-xs font-bold truncate max-w-[100px] text-primary">
+                {lead.creator.full_name}
               </span>
             </div>
           ) : (

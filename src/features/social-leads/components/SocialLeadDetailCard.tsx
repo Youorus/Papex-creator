@@ -185,11 +185,11 @@ export function SocialLeadDetailCard({ lead }: SocialLeadDetailCardProps) {
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
                   <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">
-                    {lead.creator.email.substring(0, 2).toUpperCase()}
+                    {lead.creator.full_name.substring(0, 2).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold truncate">{lead.creator.full_name}</p>
-                    <p className="text-xs text-muted-foreground font-mono truncate">{lead.creator.email}</p>
+                    <p className="text-xs text-muted-foreground truncate">Créateur Partenaire</p>
                   </div>
                 </div>
                 <Button variant="outline" className="w-full" asChild>

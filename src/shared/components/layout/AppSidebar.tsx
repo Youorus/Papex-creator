@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Menu,
+  Tag,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,6 +24,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/shared/componen
 export const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Créateurs", href: "/creators", icon: Users },
+  { name: "Codes Promo", href: "/promo-codes", icon: Tag },
   { name: "Comptes Sociaux", href: "/social-leads", icon: MessageSquare },
   { name: "Paramètres", href: "/settings", icon: Settings },
 ];

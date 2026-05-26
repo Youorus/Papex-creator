@@ -3,8 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { 
   creatorCreateSchema, 
   creatorUpdateSchema, 
-  CreatorCreateInput, 
-  CreatorUpdateInput 
 } from "../schemas";
 import { 
   Form, 
@@ -26,7 +24,7 @@ import {
 } from "@/shared/components/ui/select";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, User, Globe, FileText } from "lucide-react";
 import { CreatorProfile } from "../types";
 
 interface CreatorFormProps {
@@ -48,8 +46,6 @@ export function CreatorForm({ initialData, onSubmit, isLoading }: CreatorFormPro
       phone_number: "",
       country: "",
       city: "",
-      promo_code: "",
-      commission_rate: "10.00",
       notes: "",
     },
   });
@@ -58,9 +54,13 @@ export function CreatorForm({ initialData, onSubmit, isLoading }: CreatorFormPro
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Identité Section */}
           <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Identité & Compte</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5 text-primary" />
+                Identité & Compte
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {!isEditing && (
@@ -138,64 +138,15 @@ export function CreatorForm({ initialData, onSubmit, isLoading }: CreatorFormPro
             </CardContent>
           </Card>
 
+          {/* Localisation & Statut Section */}
           <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Programme Créateur</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-5 w-5 text-primary" />
+                Localisation & Statut
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="promo_code"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Code Promo</FormLabel>
-                      <FormControl>
-                        <Input placeholder="JEAN10" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="commission_rate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Taux de commission (%)</FormLabel>
-                      <FormControl>
-                        <Input type="number" step="0.01" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              {isEditing && (
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Statut</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Choisir un statut" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="PENDING">En attente</SelectItem>
-                          <SelectItem value="ACTIVE">Actif</SelectItem>
-                          <SelectItem value="PAUSED">En pause</SelectItem>
-                          <SelectItem value="DISABLED">Désactivé</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -224,13 +175,42 @@ export function CreatorForm({ initialData, onSubmit, isLoading }: CreatorFormPro
                   )}
                 />
               </div>
+
+              {isEditing && (
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Statut du compte</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Choisir un statut" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="PENDING">En attente</SelectItem>
+                          <SelectItem value="ACTIVE">Actif</SelectItem>
+                          <SelectItem value="PAUSED">En pause</SelectItem>
+                          <SelectItem value="DISABLED">Désactivé</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </CardContent>
           </Card>
         </div>
 
         <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Notes Internes</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
+              Notes Internes
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <FormField
@@ -240,7 +220,7 @@ export function CreatorForm({ initialData, onSubmit, isLoading }: CreatorFormPro
                 <FormItem>
                   <FormControl>
                     <Textarea 
-                      placeholder="Ajouter des notes sur ce créateur..." 
+                      placeholder="Ajouter des notes sur ce créateur (visibles uniquement par l'admin)..." 
                       className="min-h-[100px]"
                       {...field} 
                     />

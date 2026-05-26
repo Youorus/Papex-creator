@@ -3,7 +3,7 @@ import { CreatorProfile } from "@/features/creators/types";
 
 export type SocialPlatform = "TIKTOK" | "INSTAGRAM" | "FACEBOOK" | "YOUTUBE" | "LINKEDIN" | "OTHER";
 
-export type LeadContactStatus = "NEW" | "TO_CONTACT" | "CONTACTED" | "POSITIVE" | "NEGATIVE" | "CONVERTED" | "NOT_RELEVANT";
+export type ContactStatus = "NEW" | "TO_CONTACT" | "CONTACTED" | "POSITIVE" | "NEGATIVE" | "CONVERTED" | "NOT_RELEVANT";
 
 export interface SocialAccountLead {
   id: string;
@@ -18,13 +18,10 @@ export interface SocialAccountLead {
   categories: string | null;
   source: string | null;
   is_viable: boolean;
-  contact_status: LeadContactStatus;
+  contact_status: ContactStatus;
   creator: {
     id: string;
-    email: string;
     full_name: string;
-    promo_code: string;
-    status: string;
   } | null;
   notes: string | null;
   raw_data?: any;
@@ -44,7 +41,7 @@ export interface SocialLeadCreatePayload {
   categories?: string;
   source?: string;
   is_viable?: boolean;
-  contact_status?: LeadContactStatus;
+  contact_status?: ContactStatus;
   creator?: string | null;
   notes?: string;
   raw_data?: any;
@@ -54,11 +51,12 @@ export interface SocialLeadUpdatePayload extends Partial<SocialLeadCreatePayload
 
 export interface SocialLeadFilters extends ApiListParams {
   platform?: SocialPlatform;
-  contact_status?: LeadContactStatus;
+  contact_status?: ContactStatus;
   is_viable?: boolean;
   has_creator?: boolean;
   followers_min?: number;
   followers_max?: number;
+  country?: string;
   created_at_after?: string;
   created_at_before?: string;
 }

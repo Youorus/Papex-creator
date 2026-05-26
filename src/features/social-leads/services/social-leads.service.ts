@@ -50,24 +50,30 @@ export const socialLeadsService = {
     const response = await apiClient.post(`/social-leads/${id}/mark_contacted/`);
     return response.data;
   },
-  
+
   markPositive: async (id: string): Promise<SocialAccountLead> => {
     const response = await apiClient.post(`/social-leads/${id}/mark_positive/`);
     return response.data;
   },
-  
+
   markNegative: async (id: string): Promise<SocialAccountLead> => {
     const response = await apiClient.post(`/social-leads/${id}/mark_negative/`);
     return response.data;
   },
-  
+
+  markToContact: async (id: string): Promise<SocialAccountLead> => {
+    const response = await apiClient.post(`/social-leads/${id}/mark_to_contact/`);
+    return response.data;
+  },
+
   markNotRelevant: async (id: string): Promise<SocialAccountLead> => {
     const response = await apiClient.post(`/social-leads/${id}/mark_not_relevant/`);
     return response.data;
   },
-  
+
   linkCreator: async (id: string, creatorId: string): Promise<SocialAccountLead> => {
     const response = await apiClient.post(`/social-leads/${id}/link_creator/`, { creator_id: creatorId });
     return response.data;
   },
-};
+  };
+

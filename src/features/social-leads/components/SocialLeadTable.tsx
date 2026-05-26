@@ -16,18 +16,24 @@ interface SocialLeadTableProps {
   onDelete: (id: string) => void;
   onStatusAction: (id: string, action: string) => void;
   onLinkCreator: (id: string) => void;
+  onRowDoubleClick?: (id: string) => void;
 }
 
 export function SocialLeadTable({ 
   leads, 
   onDelete, 
   onStatusAction,
-  onLinkCreator
+  onLinkCreator,
+  onRowDoubleClick
 }: SocialLeadTableProps) {
   const router = useRouter();
 
   const handleRowDoubleClick = (id: string) => {
-    router.push(`/social-leads/${id}`);
+    if (onRowDoubleClick) {
+      onRowDoubleClick(id);
+    } else {
+      router.push(`/social-leads/${id}`);
+    }
   };
 
   const renderDesktopTable = () => (

@@ -117,6 +117,18 @@ export const useMarkLeadNegative = () => {
   });
 };
 
+export const useMarkLeadToContact = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => socialLeadsService.markToContact(id),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: SOCIAL_LEAD_KEYS.all });
+      toast.success("Lead marqué comme à recontacter");
+    },
+    onError: (error) => showApiErrorToast(error),
+  });
+};
+
 export const useMarkLeadNotRelevant = () => {
   const queryClient = useQueryClient();
   return useMutation({

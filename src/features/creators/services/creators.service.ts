@@ -5,7 +5,11 @@ import {
   CreatorCreatePayload, 
   CreatorUpdatePayload, 
   CreatorFilters, 
-  CreatorStats 
+  CreatorStats,
+  AggregateKpiResponse,
+  IndividualKpi,
+  CreatorKpiParams,
+  IndividualKpiParams
 } from "../types";
 
 export const creatorsService = {
@@ -32,9 +36,24 @@ export const creatorsService = {
   deleteCreator: async (id: string): Promise<void> => {
     await apiClient.delete(`/creators/${id}/`);
   },
+
+  getMe: async (): Promise<CreatorProfile> => {
+    const response = await apiClient.get("/creators/me/");
+    return response.data;
+  },
   
   getStats: async (params?: CreatorFilters): Promise<CreatorStats> => {
     const response = await apiClient.get("/creators/stats/", { params });
+    return response.data;
+  },
+
+  getAggregateKpis: async (params?: CreatorKpiParams): Promise<AggregateKpiResponse> => {
+    const response = await apiClient.get("/creators/aggregate-kpis/", { params });
+    return response.data;
+  },
+
+  getCreatorKpis: async (id: string, params?: IndividualKpiParams): Promise<IndividualKpi> => {
+    const response = await apiClient.get(`/creators/${id}/kpis/`, { params });
     return response.data;
   },
 };

@@ -24,6 +24,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
+import { AggregateKPIView } from "@/features/creators/components/AggregateKPIView";
 
 const mockData = [
   { name: "Jan", creators: 4, profiles: 24 },
@@ -49,13 +50,11 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center gap-2">
             <Link href="/creators/create">
-              {/* text-primary-foreground ajuste le texte selon la couleur du bouton en Light/Dark */}
               <Button size="sm" className="shadow-sm bg-primary text-primary-foreground hover:bg-primary/90">
                 <Plus className="mr-2 h-4 w-4" /> Créateur
               </Button>
             </Link>
             <Link href="/social-leads/create">
-              {/* text-foreground assure que le texte reste sombre sur le bouton outline en Light Mode */}
               <Button size="sm" variant="outline" className="shadow-sm text-foreground bg-background">
                 <Plus className="mr-2 h-4 w-4" /> Profil
               </Button>
@@ -171,6 +170,17 @@ export default function DashboardPage() {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="space-y-4 pt-8 border-t">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-6 w-6 text-primary" />
+            <h2 className="text-3xl font-black tracking-tight">Performance des Créateurs</h2>
+          </div>
+          <p className="text-muted-foreground">
+            Analyse des conversions et revenus générés par les codes promo.
+          </p>
+          <AggregateKPIView />
         </div>
       </div>
   );

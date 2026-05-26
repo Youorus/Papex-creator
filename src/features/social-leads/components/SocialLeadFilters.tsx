@@ -7,8 +7,8 @@ import {
   SelectValue 
 } from "@/shared/components/ui/select";
 import { Button } from "@/shared/components/ui/button";
-import { Search, X, Filter } from "lucide-react";
-import { SocialLeadFilters as FiltersType, SocialPlatform, LeadContactStatus } from "../types";
+import { Search, X, Filter, Video, Instagram, Youtube, Facebook, Linkedin, Globe } from "lucide-react";
+import { SocialLeadFilters as FiltersType, SocialPlatform, ContactStatus } from "../types";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from "@/shared/components/ui/sheet";
 import { useMediaQuery } from "@/shared/hooks/use-media-query";
 
@@ -25,7 +25,7 @@ export function SocialLeadFilters({ filters, onFiltersChange }: SocialLeadFilter
   };
 
   const clearFilters = () => {
-    onFiltersChange({ search: "", page: 1 });
+    onFiltersChange({ search: "", page: 1, platform: undefined, contact_status: undefined, is_viable: undefined, country: undefined });
   };
 
   const activeFiltersCount = [
@@ -34,11 +34,24 @@ export function SocialLeadFilters({ filters, onFiltersChange }: SocialLeadFilter
     filters.is_viable, 
     filters.has_creator, 
     filters.followers_min, 
-    filters.followers_max
+    filters.followers_max,
+    filters.country
   ].filter(v => v !== undefined && String(v) !== "").length;
 
   const FilterControls = () => (
     <div className="flex flex-col gap-4">
+      <div className="space-y-2">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Pays
+        </label>
+        <Input
+          placeholder="Ex: France"
+          value={filters.country || ""}
+          onChange={(e) => onFiltersChange({ ...filters, country: e.target.value, page: 1 })}
+          className="bg-white dark:bg-card"
+        />
+      </div>
+
       <div className="space-y-2">
         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Viabilité
@@ -146,13 +159,25 @@ export function SocialLeadFilters({ filters, onFiltersChange }: SocialLeadFilter
               <SelectValue placeholder="Plateforme" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Plateformes</SelectItem>
-              <SelectItem value="TIKTOK">TikTok</SelectItem>
-              <SelectItem value="INSTAGRAM">Instagram</SelectItem>
-              <SelectItem value="YOUTUBE">YouTube</SelectItem>
-              <SelectItem value="FACEBOOK">Facebook</SelectItem>
-              <SelectItem value="LINKEDIN">LinkedIn</SelectItem>
-              <SelectItem value="OTHER">Autre</SelectItem>
+              <SelectItem value="all">Toutes</SelectItem>
+              <SelectItem value="TIKTOK">
+                <div className="flex items-center gap-2"><Video className="h-3.5 w-3.5" /> TikTok</div>
+              </SelectItem>
+              <SelectItem value="INSTAGRAM">
+                <div className="flex items-center gap-2"><Instagram className="h-3.5 w-3.5" /> Instagram</div>
+              </SelectItem>
+              <SelectItem value="YOUTUBE">
+                <div className="flex items-center gap-2"><Youtube className="h-3.5 w-3.5" /> YouTube</div>
+              </SelectItem>
+              <SelectItem value="FACEBOOK">
+                <div className="flex items-center gap-2"><Facebook className="h-3.5 w-3.5" /> Facebook</div>
+              </SelectItem>
+              <SelectItem value="LINKEDIN">
+                <div className="flex items-center gap-2"><Linkedin className="h-3.5 w-3.5" /> LinkedIn</div>
+              </SelectItem>
+              <SelectItem value="OTHER">
+                <div className="flex items-center gap-2"><Globe className="h-3.5 w-3.5" /> Autre</div>
+              </SelectItem>
             </SelectContent>
           </Select>
 
@@ -160,7 +185,7 @@ export function SocialLeadFilters({ filters, onFiltersChange }: SocialLeadFilter
             value={filters.contact_status || "all"} 
             onValueChange={(v) => onFiltersChange({ 
               ...filters, 
-              contact_status: v === "all" ? undefined : (v as LeadContactStatus),
+              contact_status: v === "all" ? undefined : (v as ContactStatus),
               page: 1 
             })}
           >
@@ -240,13 +265,25 @@ export function SocialLeadFilters({ filters, onFiltersChange }: SocialLeadFilter
                     <SelectValue placeholder="Plateforme" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Plateformes</SelectItem>
-                    <SelectItem value="TIKTOK">TikTok</SelectItem>
-                    <SelectItem value="INSTAGRAM">Instagram</SelectItem>
-                    <SelectItem value="YOUTUBE">YouTube</SelectItem>
-                    <SelectItem value="FACEBOOK">Facebook</SelectItem>
-                    <SelectItem value="LINKEDIN">LinkedIn</SelectItem>
-                    <SelectItem value="OTHER">Autre</SelectItem>
+                    <SelectItem value="all">Toutes</SelectItem>
+                    <SelectItem value="TIKTOK">
+                      <div className="flex items-center gap-2"><Video className="h-4 w-4" /> TikTok</div>
+                    </SelectItem>
+                    <SelectItem value="INSTAGRAM">
+                      <div className="flex items-center gap-2"><Instagram className="h-4 w-4" /> Instagram</div>
+                    </SelectItem>
+                    <SelectItem value="YOUTUBE">
+                      <div className="flex items-center gap-2"><Youtube className="h-4 w-4" /> YouTube</div>
+                    </SelectItem>
+                    <SelectItem value="FACEBOOK">
+                      <div className="flex items-center gap-2"><Facebook className="h-4 w-4" /> Facebook</div>
+                    </SelectItem>
+                    <SelectItem value="LINKEDIN">
+                      <div className="flex items-center gap-2"><Linkedin className="h-4 w-4" /> LinkedIn</div>
+                    </SelectItem>
+                    <SelectItem value="OTHER">
+                      <div className="flex items-center gap-2"><Globe className="h-4 w-4" /> Autre</div>
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -259,7 +296,7 @@ export function SocialLeadFilters({ filters, onFiltersChange }: SocialLeadFilter
                   value={filters.contact_status || "all"} 
                   onValueChange={(v) => onFiltersChange({ 
                     ...filters, 
-                    contact_status: v === "all" ? undefined : (v as LeadContactStatus),
+                    contact_status: v === "all" ? undefined : (v as ContactStatus),
                     page: 1 
                   })}
                 >

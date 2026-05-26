@@ -48,8 +48,12 @@ export function SocialLeadTableRow({
 
   return (
     <tr 
-      className="group transition-colors hover:bg-muted/50 cursor-pointer"
+      className={cn(
+        "group transition-colors hover:bg-muted/50 cursor-pointer",
+        !lead.is_viable && "opacity-60 grayscale-[0.5] bg-slate-50/50 dark:bg-slate-900/20"
+      )}
       onDoubleClick={() => onRowDoubleClick && onRowDoubleClick(lead.id)}
+      onClick={() => onRowDoubleClick && onRowDoubleClick(lead.id)}
     >
       <td className="p-4 align-middle font-medium">
         <div className="flex items-center gap-3">
@@ -123,8 +127,8 @@ export function SocialLeadTableRow({
             <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusAction(lead.id, "mark_negative"); }}>
               <XCircle className="mr-2 h-4 w-4 text-rose-500" /> Négatif
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusAction(lead.id, "mark_not_relevant"); }}>
-              <XCircle className="mr-2 h-4 w-4 text-slate-500" /> Non pertinent
+            <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusAction(lead.id, "mark_to_contact"); }}>
+              <MessageSquare className="mr-2 h-4 w-4 text-amber-500" /> À recontacter
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -133,13 +137,12 @@ export function SocialLeadTableRow({
         {lead.creator ? (
           <div className="flex items-center gap-2">
             <AppAvatar 
-              name={lead.creator.full_name || lead.creator.email}
-              email={lead.creator.email}
+              name={lead.creator.full_name}
               className="h-6 w-6 border-none"
               fallbackClassName="text-[10px]"
             />
             <span className="text-xs font-medium truncate max-w-[120px]">
-              {lead.creator.full_name || lead.creator.email}
+              {lead.creator.full_name}
             </span>
           </div>
         ) : (

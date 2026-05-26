@@ -15,10 +15,12 @@ import {
   useMarkLeadContacted,
   useMarkLeadPositive,
   useMarkLeadNegative,
+  useMarkLeadToContact,
   useMarkLeadNotRelevant,
   useLinkLeadCreator
 } from "@/features/social-leads/hooks/use-social-leads";
-import { SocialLeadFilters as SocialLeadFiltersType } from "@/features/social-leads/types";
+import { SocialLeadFilters as SocialLeadFiltersType, SocialAccountLead } from "@/features/social-leads/types";
+import { ProspectDetailSidebar } from "@/features/social-leads/components/ProspectDetailSidebar";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -30,6 +32,7 @@ export default function SocialLeadsPage() {
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [linkLeadId, setLinkLeadId] = useState<string | null>(null);
+  const [selectedLead, setSelectedLead] = useState<SocialAccountLead | null>(null);
 
   const { data: leadsData, isLoading: isLoadingLeads } = useSocialLeads(filters);
   const { data: statsData, isLoading: isLoadingStats } = useSocialLeadStats(filters);
@@ -38,6 +41,7 @@ export default function SocialLeadsPage() {
   const { mutate: markContacted } = useMarkLeadContacted();
   const { mutate: markPositive } = useMarkLeadPositive();
   const { mutate: markNegative } = useMarkLeadNegative();
+  const { mutate: markToContact } = useMarkLeadToContact();
   const { mutate: markNotRelevant } = useMarkLeadNotRelevant();
   const { mutate: linkCreator, isPending: isLinking } = useLinkLeadCreator();
 
@@ -65,7 +69,15 @@ export default function SocialLeadsPage() {
     if (action === "mark_contacted") markContacted(id);
     if (action === "mark_positive") markPositive(id);
     if (action === "mark_negative") markNegative(id);
+    if (action === "mark_to_contact") markToContact(id);
     if (action === "mark_not_relevant") markNotRelevant(id);
+  };
+
+  const handleRowClick = (id: string) => {
+    const lead = leadsData?.results.find(l => l.id === id);
+    if (lead) {
+      setSelectedLead(lead);
+    }
   };
 
   return (
@@ -153,6 +165,13 @@ export default function SocialLeadsPage() {
             onConfirm={handleLinkConfirm}
             isLoading={isLinking}
         />
-      </div>
-  );
-}
+
+        <ProspectDetailSidebar 
+          lead={selectedLead}
+          isOpen={!!selectedLead}
+          onOpenChange={(open) => !open && setSelectedLead(null)}
+          onStatusAction={handleStatusAction}
+        />
+        </div>
+        );
+        }

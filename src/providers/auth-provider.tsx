@@ -3,18 +3,21 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { authService } from "@/features/auth/services/auth.service";
+import { creatorsService } from "@/features/creators/services/creators.service";
+import { CreatorProfile } from "@/features/creators/types";
 import { toast } from "sonner";
 
 interface User {
   id: string;
   email: string;
-  role?: string;
+  role?: "ADMIN" | "CREATOR" | "ACCUEIL";
   is_superuser?: boolean;
   is_authenticated?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
+  creatorProfile: CreatorProfile | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   login: () => Promise<void>;
@@ -26,6 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [creatorProfile, setCreatorProfile] = useState<CreatorProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
@@ -35,18 +39,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const data = await authService.me();
       
-      if (process.env.NODE_ENV === "development") {
-        console.log("[Auth Debug] NEXT_PUBLIC_API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
-        console.log("[Auth Debug] /auth/me/ response:", data);
-      }
-
       if (data.is_authenticated) {
         setUser(data);
+        if (data.role === "CREATOR") {
+          const profile = await creatorsService.getMe();
+          setCreatorProfile(profile);
+        } else {
+          setCreatorProfile(null);
+        }
       } else {
         setUser(null);
+        setCreatorProfile(null);
       }
     } catch (error) {
       setUser(null);
+      setCreatorProfile(null);
     } finally {
       setIsLoading(false);
     }
@@ -60,18 +67,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isLoading) {
       const isAuthPage = pathname.startsWith("/login");
-      const hasAccess = user && (user.role === "ADMIN" || user.role === "ACCUEIL" ||  user.is_superuser);
-
+      
       if (!user && !isAuthPage) {
         router.push("/login");
-      } else if (user && isAuthPage && hasAccess) {
-        router.push("/dashboard");
+        return;
+      }
+
+      if (user && isAuthPage) {
+        if (user.role === "CREATOR") {
+          router.push("/my-space");
+        } else if (user.role === "ADMIN" || user.role === "ACCUEIL" || user.is_superuser) {
+          router.push("/dashboard");
+        }
       }
     }
   }, [user, isLoading, pathname, router]);
 
   const login = async () => {
-    // Apres le POST login réussi, on recharge le user depuis /auth/me/
     await checkAuth();
   };
 
@@ -80,6 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await authService.logout();
     } finally {
       setUser(null);
+      setCreatorProfile(null);
       router.push("/login");
     }
   };
@@ -88,6 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        creatorProfile,
         isLoading,
         isAuthenticated: !!(user && user.is_authenticated),
         login,
