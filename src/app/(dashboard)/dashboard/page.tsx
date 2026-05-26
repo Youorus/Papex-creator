@@ -62,7 +62,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           <MetricCard
               title="Total Créateurs"
               value={creatorStats?.total || 0}
@@ -71,25 +71,39 @@ export default function DashboardPage() {
               description="Profils officiels"
           />
           <MetricCard
-              title="Profils Identifiés"
+              title="Prospects Sourcés"
               value={leadStats?.total || 0}
-              icon={MessageSquare}
+              icon={Search}
               colorPreset="cyan"
-              description="Comptes sourcés"
+              description="Comptes identifiés"
           />
           <MetricCard
               title="Profils Viables"
               value={leadStats?.viable || 0}
               icon={CheckCircle}
               colorPreset="emerald"
-              description="Prêts pour contact"
+              description="Potentiel élevé"
           />
           <MetricCard
-              title="Conversions"
-              value={leadStats?.converted || 0}
-              icon={TrendingUp}
+              title="Contactés"
+              value={leadStats?.contacted || 0}
+              icon={MessageSquare}
               colorPreset="amber"
-              description="Devenus créateurs"
+              description="Prospection active"
+          />
+          <MetricCard
+              title="Réponses +"
+              value={leadStats?.positive || 0}
+              icon={TrendingUp}
+              colorPreset="fuchsia"
+              description="Prêts à l'envoi"
+          />
+          <MetricCard
+              title="Convertis"
+              value={leadStats?.converted || 0}
+              icon={UserPlus}
+              colorPreset="rose"
+              description="Succès acquisition"
           />
         </div>
 
