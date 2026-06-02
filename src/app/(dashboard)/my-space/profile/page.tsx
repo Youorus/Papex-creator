@@ -21,6 +21,7 @@ import { useMemo } from "react";
 import { Country } from "country-state-city";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 export default function CreatorProfilePage() {
   const { creatorProfile } = useAuth();

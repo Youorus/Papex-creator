@@ -49,7 +49,7 @@ export default function MyDocumentsPage() {
         </div>
         <div className="flex items-center gap-2 bg-primary/5 px-4 py-2 rounded-xl border border-primary/10">
           <FolderOpen className="h-5 w-5 text-primary" />
-          <span className="text-sm font-bold text-primary">{contracts?.results.length || 0} Fichiers</span>
+          <span className="text-sm font-bold text-primary">{(contracts as any)?.results?.length || 0} Fichiers</span>
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export default function MyDocumentsPage() {
           Array(3).fill(0).map((_, i) => (
             <div key={i} className="h-48 w-full bg-muted animate-pulse rounded-[2rem]" />
           ))
-        ) : contracts?.results.length === 0 ? (
+        ) : (contracts as any)?.results?.length === 0 ? (
           <Card className="md:col-span-2 lg:col-span-3 border-dashed border-2 rounded-[2rem] bg-card/30 backdrop-blur-sm">
             <CardContent className="flex flex-col items-center justify-center py-24 text-muted-foreground">
               <div className="p-6 rounded-3xl bg-muted/20 mb-4">
@@ -69,7 +69,7 @@ export default function MyDocumentsPage() {
             </CardContent>
           </Card>
         ) : (
-          contracts?.results.map((contract) => (
+          (contracts as any)?.results?.map((contract: any) => (
             <Card key={contract.id} className="group overflow-hidden border-border/50 bg-card/40 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-[2rem] flex flex-col">
               <CardHeader className="pb-4 border-b border-border/10 bg-slate-50/50 dark:bg-slate-900/50 p-6">
                 <div className="flex items-center justify-between mb-4">

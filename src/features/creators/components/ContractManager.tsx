@@ -137,14 +137,14 @@ export function ContractManager({ creatorId }: ContractManagerProps) {
                     <TableCell colSpan={4} className="h-12 bg-muted/20 animate-pulse" />
                   </TableRow>
                 ))
-              ) : contracts?.results.length === 0 ? (
+              ) : (contracts as any)?.results?.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="h-32 text-center text-muted-foreground">
                     Aucun document rattaché à ce créateur.
                   </TableCell>
                 </TableRow>
               ) : (
-                contracts?.results.map((contract) => (
+                (contracts as any)?.results?.map((contract: any) => (
                   <TableRow key={contract.id} className="group hover:bg-muted/30 transition-colors">
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-3">

@@ -99,6 +99,7 @@ export interface AggregateKpiResponse {
     conversion_rate: number;
     total_revenue: string;
     total_commissions: string;
+    currency: string;
   }>;
 }
 
