@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import { CreatorProfile } from "../types";
 import { CreatorStatusBadge } from "./CreatorStatusBadge";
 import { Copy, Check, MoreVertical, Edit, Eye, ShieldCheck, ShieldOff, Trash2 } from "lucide-react";
@@ -13,9 +14,9 @@ import {
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Link from "next/link";
-import { useState } from "react";
 import { toast } from "sonner";
 import { AppAvatar } from "@/shared/components/avatar/AppAvatar";
+import { Country } from 'country-state-city';
 
 interface CreatorMobileCardProps {
   creator: CreatorProfile;
@@ -24,6 +25,12 @@ interface CreatorMobileCardProps {
 
 export function CreatorMobileCard({ creator, onDelete }: CreatorMobileCardProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const countryFlag = useMemo(() => {
+    if (!creator.country) return null;
+    const country = Country.getAllCountries().find(c => c.name === creator.country);
+    return country?.flag || null;
+  }, [creator.country]);
 
   const copyToClipboard = (e: React.MouseEvent, text: string, id: string) => {
     e.stopPropagation();
@@ -42,7 +49,10 @@ export function CreatorMobileCard({ creator, onDelete }: CreatorMobileCardProps)
             email={creator.email} 
           />
           <div className="flex flex-col">
-            <span className="font-bold text-slate-900 dark:text-slate-100">{creator.full_name}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-900 dark:text-slate-100">{creator.full_name}</span>
+              {countryFlag && <span className="text-sm">{countryFlag}</span>}
+            </div>
             <span className="text-xs text-muted-foreground">{creator.email}</span>
           </div>
         </div>
@@ -93,23 +103,27 @@ export function CreatorMobileCard({ creator, onDelete }: CreatorMobileCardProps)
       <div className="flex items-center justify-between pt-3 border-t border-border/50">
         <div className="flex flex-col space-y-1">
           <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Code Promo</span>
-          <div className="flex items-center gap-2">
-            <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-xs font-semibold border border-slate-200 dark:border-slate-700">
-              {creator.promo_code}
-            </code>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6"
-              onClick={(e) => copyToClipboard(e, creator.promo_code, creator.id)}
-            >
-              {copiedId === creator.id ? (
-                <Check className="h-3 w-3 text-emerald-500" />
-              ) : (
-                <Copy className="h-3 w-3 text-muted-foreground" />
-              )}
-            </Button>
-          </div>
+          {creator.promo_code ? (
+            <div className="flex items-center gap-2">
+              <code className="px-1.5 py-0.5 rounded bg-primary/5 dark:bg-primary/10 font-mono text-xs font-bold text-primary border border-primary/20">
+                {creator.promo_code}
+              </code>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6"
+                onClick={(e) => copyToClipboard(e, creator.promo_code, creator.id)}
+              >
+                {copiedId === creator.id ? (
+                  <Check className="h-3 w-3 text-emerald-500" />
+                ) : (
+                  <Copy className="h-3 w-3 text-muted-foreground" />
+                )}
+              </Button>
+            </div>
+          ) : (
+            <span className="text-xs text-muted-foreground italic">Aucun code</span>
+          )}
         </div>
         
         <Link href={`/creators/${creator.id}`}>

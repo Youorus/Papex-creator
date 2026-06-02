@@ -99,7 +99,8 @@ export function ContractManager({ creatorId }: ContractManagerProps) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const getFileIcon = (fileName: string) => {
+  const getFileIcon = (fileName?: string | null) => {
+    if (!fileName) return <FileIcon className="h-5 w-5 text-slate-500" />;
     const ext = fileName.split('.').pop()?.toLowerCase();
     if (ext === 'pdf') return <FileText className="h-5 w-5 text-rose-500" />;
     if (['jpg', 'jpeg', 'png', 'webp'].includes(ext || '')) return <ImageIcon className="h-5 w-5 text-blue-500" />;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CheckCircle2, Copy, MoreHorizontal, Edit, Eye, Trash2, Link2, MessageSquare, XCircle, ExternalLink } from "lucide-react";
 import { SocialAccountLead } from "../types";
 import { SocialLeadStatusBadge } from "./SocialLeadStatusBadge";
@@ -17,6 +17,7 @@ import { AppAvatar } from "@/shared/components/avatar/AppAvatar";
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useUpdateSocialLead } from "../hooks/use-social-leads";
+import { Country } from 'country-state-city';
 
 interface SocialLeadTableRowProps {
   lead: SocialAccountLead;
@@ -34,6 +35,12 @@ export function SocialLeadTableRow({
   onRowDoubleClick
 }: SocialLeadTableRowProps) {
   const { mutate: updateLead, isPending } = useUpdateSocialLead();
+
+  const countryFlag = useMemo(() => {
+    if (!lead.country) return null;
+    const country = Country.getAllCountries().find(c => c.name === lead.country);
+    return country?.flag || null;
+  }, [lead.country]);
 
   const formatFollowers = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -63,6 +70,7 @@ export function SocialLeadTableRow({
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="font-bold text-slate-900 dark:text-slate-100">{lead.username}</span>
+              {countryFlag && <span className="text-sm" title={lead.country || ""}>{countryFlag}</span>}
               {lead.profile_url && (
                 <a 
                   href={lead.profile_url} 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Check, Copy, MoreHorizontal, Edit, Eye, Trash2, ShieldCheck, ShieldOff } from "lucide-react";
 import { CreatorProfile, CreatorStatus } from "../types";
 import { CreatorStatusBadge } from "./CreatorStatusBadge";
@@ -10,9 +10,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
 } from "@/shared/components/ui/dropdown-menu";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -20,6 +17,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { AppAvatar } from "@/shared/components/avatar/AppAvatar";
 import { useUpdateCreator } from "../hooks/use-creators";
+import { Country } from 'country-state-city';
 
 interface CreatorTableRowProps {
   creator: CreatorProfile;
@@ -30,6 +28,12 @@ interface CreatorTableRowProps {
 export function CreatorTableRow({ creator, onDelete, onRowDoubleClick }: CreatorTableRowProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const { mutate: updateCreator, isPending } = useUpdateCreator();
+
+  const countryFlag = useMemo(() => {
+    if (!creator.country) return null;
+    const country = Country.getAllCountries().find(c => c.name === creator.country);
+    return country?.flag || null;
+  }, [creator.country]);
 
   const copyToClipboard = (e: React.MouseEvent, text: string, id: string) => {
     e.stopPropagation();
@@ -59,29 +63,36 @@ export function CreatorTableRow({ creator, onDelete, onRowDoubleClick }: Creator
             email={creator.email} 
           />
           <div className="flex flex-col">
-            <span className="font-bold text-slate-900 dark:text-slate-100">{creator.full_name}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-900 dark:text-slate-100">{creator.full_name}</span>
+              {countryFlag && <span className="text-lg" title={creator.country || ""}>{countryFlag}</span>}
+            </div>
             <span className="text-xs text-muted-foreground font-normal">{creator.email}</span>
           </div>
         </div>
       </td>
       <td className="p-4 align-middle">
-        <div className="flex items-center gap-2">
-          <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-xs font-semibold border border-slate-200 dark:border-slate-700">
-            {creator.promo_code}
-          </code>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={(e) => copyToClipboard(e, creator.promo_code, creator.id)}
-          >
-            {copiedId === creator.id ? (
-              <Check className="h-3 w-3 text-emerald-500" />
-            ) : (
-              <Copy className="h-3 w-3" />
-            )}
-          </Button>
-        </div>
+        {creator.promo_code ? (
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-bold text-xs tracking-tight border border-primary/20 shadow-sm">
+              {creator.promo_code}
+            </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-all hover:bg-primary/10"
+              onClick={(e) => copyToClipboard(e, creator.promo_code, creator.id)}
+            >
+              {copiedId === creator.id ? (
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </Button>
+          </div>
+        ) : (
+          <span className="text-xs text-muted-foreground italic px-2 py-1 rounded-md bg-muted/30">Aucun code</span>
+        )}
       </td>
       <td className="p-4 align-middle">
         <DropdownMenu>
@@ -100,9 +111,12 @@ export function CreatorTableRow({ creator, onDelete, onRowDoubleClick }: Creator
         </DropdownMenu>
       </td>
       <td className="p-4 align-middle">
-        <span className="font-semibold text-primary">
-          {creator.commission_rate}%
-        </span>
+        <div className="flex flex-col">
+          <span className="text-sm font-black text-slate-900 dark:text-slate-100">
+            {creator.commission_rate || "0"}%
+          </span>
+          <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-tighter">Commission</span>
+        </div>
       </td>
       <td className="p-4 align-middle text-muted-foreground text-sm">
         {format(new Date(creator.created_at), "dd MMM yyyy", { locale: fr })}

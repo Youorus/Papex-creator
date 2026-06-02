@@ -95,6 +95,7 @@ export function PromoCodeManager({ creatorId }: PromoCodeManagerProps) {
             promoCodes={data?.results || []} 
             onEdit={openEdit}
             onDelete={setDeleteId}
+            showCreator={false}
           />
         )}
 

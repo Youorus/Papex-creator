@@ -128,7 +128,6 @@ export default function CreatorDetailPage() {
           {activeTab === "info" && (
             <>
               <CreatorDetailCard creator={creator} />
-              <PromoCodeManager creatorId={id} />
             </>
           )}
           {activeTab === "stats" && <CreatorDetailAnalytics creatorId={id} />}

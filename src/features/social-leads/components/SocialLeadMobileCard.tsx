@@ -26,6 +26,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { useMemo } from "react";
+import { Country } from "country-state-city";
 
 interface SocialLeadMobileCardProps {
   lead: SocialAccountLead;
@@ -46,6 +48,12 @@ export function SocialLeadMobileCard({
     return count.toString();
   };
 
+  const countryFlag = useMemo(() => {
+    if (!lead.country) return null;
+    const country = Country.getAllCountries().find(c => c.name === lead.country);
+    return country?.flag || null;
+  }, [lead.country]);
+
   return (
     <div className="bg-card rounded-xl border border-border/50 p-4 space-y-4 shadow-sm relative overflow-hidden">
       <div className="flex justify-between items-start">
@@ -56,6 +64,7 @@ export function SocialLeadMobileCard({
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="font-bold text-slate-900 dark:text-slate-100">{lead.username}</span>
+              {countryFlag && <span className="text-sm">{countryFlag}</span>}
               {lead.profile_url && (
                 <a 
                   href={lead.profile_url} 

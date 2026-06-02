@@ -134,16 +134,6 @@ export default function MyPromoCodesPage() {
         )}
       </div>
 
-      <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl p-6 flex items-start gap-4">
-        <AlertCircle className="h-6 w-6 text-amber-600 shrink-0 mt-1" />
-        <div className="space-y-1">
-          <p className="font-bold text-amber-900">Information Importante</p>
-          <p className="text-sm text-amber-800 leading-relaxed">
-            Les commissions sont calculées sur le montant HT final payé par le client après remise. 
-            Les bonus de vente sont ajoutés forfaitairement pour chaque contrat signé via votre code.
-          </p>
-        </div>
       </div>
-    </div>
-  );
-}
+      );
+      }

@@ -42,7 +42,11 @@ export const socialLeadsService = {
   },
   
   getStats: async (params?: SocialLeadFilters): Promise<SocialLeadStats> => {
-    const response = await apiClient.get("/social-leads/stats/", { params });
+    const adjustedParams = { ...params };
+    if (params?.has_creator !== undefined) {
+      adjustedParams.has_creator = !params.has_creator as any;
+    }
+    const response = await apiClient.get("/social-leads/stats/", { params: adjustedParams });
     return response.data;
   },
   

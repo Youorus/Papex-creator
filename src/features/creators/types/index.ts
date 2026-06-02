@@ -36,6 +36,7 @@ export interface CreatorContract {
 
 export interface CreatorContractFilters extends ApiListParams {
   creator_id?: string;
+  creator?: string;
 }
 
 export interface CreatorCreatePayload {
@@ -107,6 +108,7 @@ export interface IndividualKpi {
   conversion_rate: number;
   total_revenue: string;
   total_commissions: string;
+  currency: string;
 }
 
 export interface CreatorKpiParams {

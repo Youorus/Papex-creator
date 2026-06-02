@@ -10,10 +10,11 @@ export const CONTRACT_KEYS = {
   list: (filters: CreatorContractFilters) => [...CONTRACT_KEYS.lists(), filters] as const,
 };
 
-export const useCreatorContracts = (filters: CreatorContractFilters = {}) => {
+export const useCreatorContracts = (filters: CreatorContractFilters = {}, options: any = {}) => {
   return useQuery({
     queryKey: CONTRACT_KEYS.list(filters),
     queryFn: () => creatorContractsService.getContracts(filters),
+    ...options
   });
 };
 
